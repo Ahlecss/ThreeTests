@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="js/three.js"></script>
+    <script src="js/DragControls.js"></script>
+    <script>
+
+        // Tester le Drag n Drop
+        var scene = new THREE.Scene();
+        var renderer = new THREE.WebGLRenderer();
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        
+        scene.background = new THREE.Color( 0x555555 );
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var material = new THREE.MeshPhongMaterial( { color: 0xFB9E7B, specular: 0xffffff, shininess: 500 } );
+        //var cube = new THREE.Mesh( geometry, material );
+
+        var objects = [];
+
+        meshX = -10;
+        for(var i = 0; i < 25; i++){
+            var cube = new THREE.Mesh( geometry, material );
+            cube.position.x = (Math.random() - 0.5) * 10;
+            cube.position.y = (Math.random() - 0.5) * 10;
+            cube.position.z = (Math.random() - 0.5) * 10;
+
+            scene.add( cube );
+
+            objects.push( cube );
+            meshX += 1;
+        }
+        
+        /*cube.position.set(1, 1, 1.5)
+        cube.scale.set(1, 2, 0.8)*/        
+
+        group = new THREE.Group();
+
+        for ( var a = 0; a < 200; a ++ ) {
+
+        var x = (Math.random() - 0.5) * 10;
+        var y = (Math.random() - 0.5) * 10;
+        var z = (Math.random() - 0.5) * 10;
+
+        var spriteMaterial = new THREE.SpriteMaterial( {color: 0xFAD761 } );
+        var sprite = new THREE.Sprite( spriteMaterial );
+
+        sprite.position.set( x, y, z );
+        sprite.position.normalize();
+        sprite.position.multiplyScalar( 500 );
+
+        group.add( sprite );
+
+        }
+
+        scene.add( group );
+
+        var light = new THREE.PointLight( 0xaaaaaa, 1, 1000 );
+        light.position.set( 0, 0, 0 );
+        scene.add( light );
+
+        var light = new THREE.PointLight( 0xaaaaaa, 2, 1000 );
+        light.position.set( 0, 25, 25 );
+        scene.add( light );
+
+        var light = new THREE.HemisphereLight( 0xbbbbbb, 0x080820, 1 );
+        scene.add( light );
+
+        var controls = new THREE.DragControls( objects, camera, renderer.domElement );
+
+        // add event listener to highlight dragged objects
+
+        controls.addEventListener( 'dragstart', function ( event ) {
+
+            event.object.material.emissive.set( 0x888888 );
+
+        } );
+
+        controls.addEventListener( 'dragend', function ( event ) {
+
+            event.object.material.emissive.set( 0x000000 );
+
+        } );
+        
+
+        function animate() {
+
+        requestAnimationFrame( animate );
+
+        renderer.render( scene, camera );
+
+        }
+        animate();
+    </script>
+    
+</body>
+</html>

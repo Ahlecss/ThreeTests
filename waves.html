@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+		<script src="js/three.js"></script>
+        <script>
+            var camera, scene, renderer;
+            var geometry, material, mesh;
+            
+            // Rajouter des vagues (présent dans la doc)
+            // Orbit Control
+            // Renderer
+            if (window.WebGLRenderingContext)
+              renderer = new THREE.WebGLRenderer({alpha: true});
+            else
+              renderer = new THREE.CanvasRenderer({alpha: true});
+            
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild( renderer.domElement );
+            
+            //Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 500;
+            
+            // Scene
+            scene = new THREE.Scene();
+            
+            // Props
+            geometry = new THREE.TorusKnotGeometry( 150, 25, 100, 16 );
+            material = new THREE.MeshDepthMaterial({
+              color: 0xFFD89E,
+              wireframe: true,
+              wireframeLinewidth: 1
+            });
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            object = new THREE.Points( geometry, material );
+				    scene.add( object );
+          
+            var animate = function() {
+              requestAnimationFrame(animate);
+              //mesh.rotation.x = Date.now() * 0.0005;
+              mesh.rotation.y = Date.now() * 0.001;
+              renderer.render(scene, camera);
+            };
+            animate();
+            
+            //controls = new THREE.TrackballControls( camera );
+            //controls.target.set( 0, 0, 0 )
+		</script>
+	</body>
+</html>
