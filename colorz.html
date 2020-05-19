@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="js/three.js"></script>
+    <script src="js/DragControls.js"></script>
+    <script>
+
+        // Tester le Drag n Drop
+        var scene = new THREE.Scene();
+        var renderer = new THREE.WebGLRenderer();
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        
+        scene.background = new THREE.Color( 0xFFDAD1 );
+
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        document.body.appendChild( renderer.domElement );
+
+            
+        var geometry = new THREE.BoxGeometry();
+        var material = new THREE.MeshBasicMaterial( { color: 0xA88DFF } );
+        var cube = new THREE.Mesh( geometry, material );
+        scene.add( cube );
+
+        camera.position.z = 5;
+
+        var geometry = new THREE.CircleGeometry( 5, 16 );
+        var material = new THREE.MeshBasicMaterial( { color: 0xFF3328 } );
+        var circle = new THREE.Mesh( geometry, material );
+        scene.add( circle );
+
+        var geometry = new THREE.CircleGeometry( 5, 32 );
+        var material = new THREE.MeshDepthMaterial( { color: 0xFF3328 } );
+        var circle = new THREE.Mesh( geometry, material );
+        scene.add( circle );
+
+        var geometry = new THREE.CircleGeometry( 5, 32 );
+        var material = new THREE.MeshDistanceMaterial( { color: 0xFF3328 } );
+        var circle = new THREE.Mesh( geometry, material );
+        scene.add( circle );
+
+        var geometry = new THREE.CircleGeometry( 5, 32 );
+        var material = new THREE.MeshPhongMaterial( { color: 0xFF3328 } );
+        var circle = new THREE.Mesh( geometry, material );
+        scene.add( circle );
+
+    
+
+        var light = new THREE.PointLight( 0xaaaaaa, 1, 1000 );
+        light.position.set( 0, 0, 0 );
+        scene.add( light );
+
+        var light = new THREE.PointLight( 0xaaaaaa, 2, 1000 );
+        light.position.set( 0, 25, 25 );
+        scene.add( light );
+
+        var light = new THREE.HemisphereLight( 0xbbbbbb, 0x080820, 1 );
+        scene.add( light );
+
+        
+
+        function animate() {
+
+        requestAnimationFrame( animate );
+
+        renderer.render( scene, camera );
+
+        }
+        animate();
+    </script>
+    
+</body>
+</html>

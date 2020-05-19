@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+		<script src="js/three.js"></script>
+		<script src="js/TrackballControls.js"></script>
+		<script>
+
+            // TrallBack Control autour de la lune
+            // Rajouter l'étoile noire ? 
+            // Faire orbiter des astéroides
+			var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+            var controls;
+
+            scene.background = new THREE.Color( 0x1F7453);
+			var renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+            document.body.appendChild( renderer.domElement );
+
+            group = new THREE.Group();
+
+            for ( var a = 0; a < 200; a ++ ) {
+
+            var x = (Math.random() - 0.5) * 10;
+            var y = (Math.random() - 0.5) * 10;
+            var z = (Math.random() - 0.5) * 10;
+
+            var spriteMaterial = new THREE.SpriteMaterial( {color: 0xffffff } );
+            var sprite = new THREE.Sprite( spriteMaterial );
+
+            sprite.position.set( x, y, z );
+            sprite.position.normalize();
+            sprite.position.multiplyScalar( 500 );
+
+            group.add( sprite );
+
+            }
+
+            var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+            // 
+            var material = new THREE.MeshPhongMaterial( { color: 0x6375fb, specular: 0x6375fb, shininess: 100 } );
+            var circle = new THREE.Mesh( geometry, material );
+            circle.position.set(1, 1, 1)
+            circle.scale.set(0.3, 0.3, 0.3)
+            scene.add( circle )
+
+            scene.add( group );
+
+            
+            var light = new THREE.PointLight( 0x6375fb, 1, 50 );
+            light.position.set( 10, 10, 10 );
+            scene.add( light );
+
+            var light = new THREE.DirectionalLight( 0x002288 );
+            light.position.set( 0, 0, 0 );
+            scene.add( light );
+
+            var light = new THREE.AmbientLight( 0x222222 );
+            scene.add( light );
+
+            
+
+            var controls = new THREE.TrackballControls( camera, renderer.domElement );
+
+            controls.rotateSpeed = 1.0;
+            controls.zoomSpeed = 1.2;
+            controls.panSpeed = 0.8;
+
+            controls.keys = [ 65, 83, 68 ];
+
+            /*var spriteMaterial = new THREE.SpriteMaterial( {color: 0xffffff } );
+            var sprite = new THREE.Sprite( spriteMaterial );
+            sprite.position.set( 1, 2, 1 );
+            scene.add( sprite );*/
+
+			camera.position.z = 5;
+
+			var animate = function () {
+                requestAnimationFrame( animate );
+                
+                controls.update();
+
+				//stats.update();
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+	</body>
+</html>
